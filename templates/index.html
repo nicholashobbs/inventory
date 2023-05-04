@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Your Store and Inventory</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Select Your Store and Inventory</h1>
+    <form method="post">
+        <label for="store_select">Select a store:</label>
+        <select name="store" id="store_select">
+            {% for store in stores %}
+                <option value="{{ store }}">{{ store }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    {% if selected_store %}
+        <h2>{{ selected_store }}</h2>
+        <button id="add-item-btn">Add Item</button>
+        Add Item
+        <div id="add-item-dialog" style="display:none">
+            <form id="add-item-form">
+                <label for="product-input">Product:</label>
+                <input type="text" name="product" id="product-input"><br>
+                <label for="stock-input">Stock:</label>
+                <input type="number" name="stock" id="stock-input"><br>
+                <label for="min-level-input">Min Level:</label>
+                <input type="number" name="min_level" id="min-level-input"><br>
+                <input type="hidden" name="store" id="store-input">
+                <input type="submit" value="Add">
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Stock</th>
+                    <th>Min Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product, item in data[selected_store].items() %}
+                    <tr>
+                        <td>{{ product }}</td>
+                        <td>{{ item["stock"] }}</td>
+                        <td>{{ item["min_level"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <script>
+        // Show the add item dialog when the button is clicked
+        $('#add-item-btn').click(function() {
+            $('#add-item-dialog').show();
+            $('#store-input').val('{{ selected_store }}');
+        });
+
+        // Submit the add item form when it's submitted
+        $('#add-item-form').submit(function(event) {
+            event.preventDefault();
+            $.post('/add_item', $(this).serialize(), function(data) {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

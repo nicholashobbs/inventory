@@ -1,0 +1,1 @@
+{"Store 1": {"beer 1": {"stock": 10, "min_level": 5}, "beer 2": {"stock": 5, "min_level": 2}, "beer 4": {"stock": 6, "min_level": 45}, "asdf": {"stock": 4, "min_level": 3}, "Grand B": {"stock": 34, "min_level": 2}}, "Store 2": {"beer 1": {"stock": 8, "min_level": 4}, "beer 3": {"stock": 3, "min_level": 1}, "another beer": {"stock": 45, "min_level": 13}}}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Stock</title>
+</head>
+
+<body>
+    <h1>Update Stock</h1>
+    <form method="post">
+        <label for="name_select">Select a name:</label>
+        <select name="name" id="name_select">
+            {% for name in names %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="store_select">Select a store:</label>
+        <select name="store" id="store_select">
+            {% for store in stores %}
+                <option value="{{ store }}">{{ store }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if inventory %}
+        <h2>Inventory for {{ selected_name }} at {{ selected_store }}</h2>
+        <form method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Stock</th>
+                        <th>Min Level</th>
+                        <th>Update Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in inventory %}
+                        <tr>
+                            <td>{{ product }}</td>
+                            <td>{{ inventory[product]['stock'] }}</td>
+                            <td>{{ inventory[product]['min_level'] }}</td>
+                            <td>
+                                <input type="number" name="{{ product }}" value="0">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <input type="submit" name="submit" value="Add to Stock">
+            <input type="submit" name="submit" value="Subtract from Stock">
+        </form>
+    {% endif %}
+</body>
+</html>
